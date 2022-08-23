@@ -9,6 +9,22 @@ import java.util.*;
  */
 @SuppressWarnings("all")
 public class Test {
+    static class ListNode {
+        ListNode next;
+        int val;
+
+        public ListNode() {
+        }
+
+        public ListNode(int val) {
+            this.val = val;
+        }
+
+        public ListNode(int val, ListNode next) {
+            this.next = next;
+            this.val = val;
+        }
+    }
     public static void main(String[] args) {
         int[] arr = {7, 1, 5, 3, 6, 4};
         System.out.println(maxProfit2(arr));
