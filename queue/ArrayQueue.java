@@ -29,7 +29,7 @@ public class ArrayQueue {
     private int front;
     private int rear;
     private final static int MAX_SIZE = 4;
-    private int[] data;
+    private final int[] data;
 
     public ArrayQueue() {
         this.data = new int[MAX_SIZE];
