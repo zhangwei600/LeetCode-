@@ -25,6 +25,7 @@ public class Test {
             this.val = val;
         }
     }
+
     public static void main(String[] args) {
         int[] arr = {7, 1, 5, 3, 6, 4};
         System.out.println(maxProfit2(arr));
@@ -36,7 +37,7 @@ public class Test {
         // 1，high奇数，low奇数
         if (high == low && high % 2 == 0) {
             return 0;
-        } else if (high == low && high % 2 != 0) {
+        } else if (high == low) {
             return 1;
         }
         int count = 0;
@@ -82,6 +83,7 @@ public class Test {
     public static String toUpper(String s) {
         return s.toLowerCase();
     }
+
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         HashMap<Integer, Integer> node1Hs = new HashMap<>();
         HashMap<Integer, Integer> node2Hs = new HashMap<>();
@@ -127,24 +129,25 @@ public class Test {
         if (node1Hs.size() > node2Hs.size()) {
             if (flag) {
                 // 如果之前的flag没有重置的话
-                listNodes.add(new ListNode(node1Hs.get(++i) + 1,listNodes.get(i - 1)));
+                listNodes.add(new ListNode(node1Hs.get(++i) + 1, listNodes.get(i - 1)));
                 flag = false;
             } else {
-                listNodes.add(new ListNode(node1Hs.get(++i),listNodes.get(i - 1)));
+                listNodes.add(new ListNode(node1Hs.get(++i), listNodes.get(i - 1)));
             }
         } else {
             if (flag) {
                 // 如果之前的flag没有重置的话
-                listNodes.add(new ListNode(node2Hs.get(++i) + 1,listNodes.get(i - 1)));
+                listNodes.add(new ListNode(node2Hs.get(++i) + 1, listNodes.get(i - 1)));
                 flag = false;
             } else {
-                listNodes.add(new ListNode(node2Hs.get(++i),listNodes.get(i - 1)));
+                listNodes.add(new ListNode(node2Hs.get(++i), listNodes.get(i - 1)));
             }
         }
 
         return listNodes.get(listNodes.size() - 1);
 
     }
+
     public static ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
         ArrayList<ListNode> nodes = new ArrayList<>();
         boolean flag = false;
@@ -363,6 +366,7 @@ public class Test {
 
 
     }
+
     public static int maxProfit(int[] prices) {
         // 决定什么时候买，然后决定什么时候卖
         int sell = prices.length - 1;
@@ -372,7 +376,7 @@ public class Test {
         int partialMax = prices[prices.length - 1];//后面数组的最大值,初始化为price的最后一个值
         int partialMin = prices[0];
         // buy < sell - 1这个边界条件你要考虑到，因为buy < sell 可能会造成max和min相等指向同一个元素
-        for (; buy < sell ;) {
+        for (; buy < sell; ) {
             // 这么写的唯一错误就是在穿透交织的时候改变了原来的最大最小值，如果不改变就啥事都没有
             // 针对的是具有偶数个元素的数组才会出现穿透
             if (prices.length % 2 == 0 && buy == prices.length / 2) {
@@ -385,6 +389,7 @@ public class Test {
         }
         return partialMax - partialMin > 0 ? partialMax - partialMin : 0;
     }
+
     public static int maxProfit2(int[] prices) {
         int maxIndex = -1;
         int max = 0;
@@ -451,3 +456,4 @@ public class Test {
     }
 
 }
+
