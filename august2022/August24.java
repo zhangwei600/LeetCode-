@@ -54,7 +54,6 @@ public class August24 {
             begin = next;
         }
         return 0;
-
     }
 
     public boolean check(Set<String> next, Set<String> end, Set<String> dict, String s, Set<String> seen) {
