@@ -8,7 +8,10 @@ import java.util.*;
  * @version 1.0
  * 两个问题：找出一颗二叉树中结构完全相同的子树，类型相同的子树只返回一次。结果存在一个List中返回
  * 第二个就是分组问题，得到分组后的最大值，推导的公式表明让实力高的人去人数少的队伍能够提高平均得分
+ * 两题的链接：<a href="https://leetcode.cn/problems/LMkFuT/">...</a>
+ * <a href="https://leetcode.cn/problems/find-duplicate-subtrees/">...</a>
  */
+
 public class September05 {
 
     static class TreeNode {
