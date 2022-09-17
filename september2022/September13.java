@@ -50,7 +50,6 @@ class SegmentTree {
         update = new boolean[nMax];
         System.arraycopy(original, 0, arr, 1, original.length);
         build(arr, sum, 1, original.length, 1);
-
     }
 
     // 汇总更新的函数
