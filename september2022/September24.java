@@ -58,6 +58,8 @@ public class September24 {
                     return new int[0];
                 } else {
                     ans[low] = rains[i];
+                    // 更新上一次这个湖泊的第一次降雨时间
+                    // 上一次降雨的水已经抽掉了，在第i天又重新下雨填满了
                     map.put(rains[i], i);
                     // 将这个晴天去掉
                     tree.remove(low);
