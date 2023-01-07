@@ -1,6 +1,10 @@
 package com.fang.leetcode;
 
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -29,6 +33,8 @@ public class Test {
     public static void main(String[] args) {
         int[] arr = {7, 1, 5, 3, 6, 4};
         System.out.println(maxProfit2(arr));
+        ArrayDeque<Integer> s = new ArrayDeque<>();
+        System.out.println(s);
     }
 
     public static int countOdds(int low, int high) {
@@ -455,4 +461,258 @@ public class Test {
     }
 
 }
+
+class StockSpanner {
+    public static void main(String[] args) {
+        StockSpanner s = new StockSpanner();
+        int[] data = {100, 80, 60, 70, 60, 75, 85};
+        for (int i : data) {
+            System.out.println(s.next(i));
+        }
+        System.out.println(2 << 9);
+    }
+
+    // 怎么弄一个O(1)的方法，知道前面连续小于等于当前数字的数组长度
+    static class Info {
+        int index;
+        int val;
+
+        public Info(int index, int val) {
+            this.index = index;
+            this.val = val;
+        }
+    }
+
+    // 小于等于当前位置的最大连续日数
+    Stack<Info> s;
+    int index;
+
+    public StockSpanner() {
+        this.s = new Stack<>();
+        this.index = 0;
+        Deque<Integer> queue = new LinkedList<>();
+    }
+
+    public int next(int price) {
+        // 从0位置到当前位置的最大值
+        Info info = new Info(index++, price);
+        // s.push(info);
+        int ans = 1;
+        while (!s.isEmpty() && price >= s.peek().val) {
+            ans = info.index - s.peek().index + 1;
+            s.pop();
+        }
+        s.push(info);
+        return ans;
+    }
+}
+
+
+// 大堆
+class Heap {
+    int[] data;
+    private int size;
+
+
+    public Heap(int capacity) {
+        this.data = new int[capacity];
+        this.size = 0;
+    }
+
+
+    void offer(int num) {
+        this.data[size++] = num;
+        heapInsert();
+    }
+
+    int poll() {
+        int res = data[0];
+        // 最后一个数字给我交换到数组前面去
+        swap(0, --size);
+        heapIfy();
+        return res;
+    }
+
+    int peek() {
+        if (this.isEmpty()) {
+            throw new RuntimeException("堆为空");
+        }
+        return this.data[0];
+    }
+
+    boolean isEmpty() {
+        return this.size == 0;
+    }
+
+    // 从pos位置插入
+    void heapInsert() {
+        // (i - 1) / 2
+        int pos = this.size - 1;
+        int father = (pos - 1) / 2;
+        while (data[father] < data[pos]) {
+            swap(father, pos);
+            pos = father;
+            father = (pos - 1) / 2;
+        }
+
+    }
+
+    // 从size位置开始堆化
+    void heapIfy() {
+        //
+        int pos = 0;
+        int son1 = 1;
+        int son2 = 2;
+        while (son1 < this.size) {
+            int large;
+            // 得到最小的儿子
+            large = son2 < this.size && data[son2] > data[son1] ? son2 : son1;
+            if (data[large] < data[pos]) {
+                return;
+            }
+            swap(large, pos);
+            pos = large;
+            son1 = 2 * pos + 1;
+            son2 = 2 * pos + 2;
+        }
+    }
+
+    int size() {
+        return this.size;
+    }
+
+    void swap(int i, int j) {
+        int temp = this.data[i];
+        this.data[i] = this.data[j];
+        this.data[j] = temp;
+    }
+}
+
+
+
+@SuppressWarnings("all")
+class Solution {
+
+    boolean check(String s) {
+        if (s.charAt(s.length() - 1) == '.') {
+            return false;
+        }
+        String[] data = s.split("\\.");
+        for (String temp : data) {
+            if ((temp.length() > 1 && temp.charAt(0) == '0') || temp.length() > 3) {
+                return false;
+            } else if (Integer.parseInt(temp) > 255) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public String customSortString(String order, String s) {
+        int[] flag = new int[26];
+        int n = s.length();
+        for (int i = 0; i < n; i++) {
+            flag[s.charAt(i) - 'a']++;
+        }
+        char[] data = new char[n];
+        int index = 0;
+        for (char c : order.toCharArray()) {
+            int temp = flag[c - 'a'];
+            if (temp != 0) {
+                for (int i = 0; i < temp; i++) {
+                    data[index++] = c;
+                }
+            }
+        }
+        return new String(data);
+
+    }
+
+    public static void main(String[] args) throws IOException {
+//        Solution s = new Solution();
+//        boolean check = s.check("1.0.1.023");
+//        System.out.println(check);
+//        System.out.println(s.customSortString("cba", "abcd"));
+//        int[] ran = new int[30];
+//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+//        System.out.print("请输入信息:");
+//        String s1 = br.readLine();
+//        System.out.println(Arrays.toString(s1.split("\\.")));
+        String str = "A1";
+        str = str.toLowerCase();
+        System.out.println(str);
+    }
+    public long totalCost(int[] costs, int k, int candidates) {
+        // 最前面和最后面的几个人，看看能不能覆盖整个数组
+        int c = candidates;
+        int n = costs.length;
+        long ans = 0L;
+        if (c * 2 >= n) {
+            Arrays.sort(costs);
+            for (int i = 0; i < k; i++) {
+                ans += costs[i];
+            }
+            return ans;
+        }
+
+        PriorityQueue<int[]> pq1 = new PriorityQueue<>((o1, o2) -> {
+            if (o1[0] != o2[0]) {
+                return o1[0] - o2[0];
+            } else {
+                return o1[1] - o2[1];
+            }
+        });
+        PriorityQueue<int[]> pq2 = new PriorityQueue<>((o1, o2) -> {
+            if (o1[0] != o2[0]) {
+                return o1[0] - o2[0];
+            } else {
+                return o1[1] - o2[1];
+            }
+        });
+        int index = 0;
+        int l = 0;
+        int r = n - 1;
+        // 初始化优先队列
+        for (int i = 0; i < c; i++) {
+            pq2.offer(new int[]{costs[n - i - 1], n - i - 1});
+            pq1.offer(new int[]{costs[i], i});
+            r--;
+            l++;
+        }
+        while (index < k && l <= r) {
+            if (pq1.peek()[0] <= pq2.peek()[0]) {
+                ans += pq1.poll()[0];
+                pq1.offer(new int[]{costs[l], l});
+                l++;
+            } else {
+                ans += pq2.poll()[0];
+                pq2.offer(new int[]{costs[r], r});
+                r--;
+            }
+            index++;
+        }
+        while (index < k) {
+            if (pq1.peek()[0] <= pq2.peek()[0]) {
+                ans += pq1.poll()[0];
+                // pq1.offer(new int[]{cost[l], l});
+                // l++;
+            } else {
+                ans += pq2.poll()[0];
+                // pq2.offer(new int[]{cosr[r], r});
+                // r--;
+            }
+            index++;
+        }
+//        HashSet<Integer> integers = new HashSet<>();
+//        integers.add(10);
+//        Collections.sort(integers);
+//        ArrayList<Integer> s = new ArrayList<>();
+//        s.add(10);
+//        s.re;
+
+        return ans;
+
+    }
+}
+
 
